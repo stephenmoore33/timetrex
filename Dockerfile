@@ -10,28 +10,6 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-# MY ENV
-ENV DEBIAN_FRONTEND=noninteractive
-ENV BASE_URL=http://localhost:80
-ENV HOST_NAME="localhost"
-ENV URL_POSTFIX="/timetrex/interface"
-ENV ADMIN_EMAIL=admin@example.com
-ENV DB_HOST=db
-ENV DB_NAME=timetrex
-ENV DB_USER=timetrex
-ENV DB_PASS=timetrex
-ENV EMAIL_DELIVERY_METHOD="smtp"
-ENV EMAIL_SMTP_HOST="smtp.gmail.com"
-ENV EMAIL_SMTP_PORT=587
-ENV EMAIL_SMTP_USERNAME="timetrex@gmail.com"
-ENV EMAIL_SMTP_PASSWORD="testpass123"
-ENV EMAIL_DOMAIN="mydomain.com"
-ENV EMAIL_LOCAL_PART="DoNotReply"
-ENV PRODUCTION="TRUE"
-ENV FORCE_SSL="FALSE"
-ENV ENABLE_CSRF_VALIDATION="FALSE"
-ENV DISABLE_AUTO_UPGRADE="TRUE"
-
 
 RUN apt-get update -y -qq && \
     apt-get dist-upgrade -y && \
@@ -60,6 +38,7 @@ RUN apt-get update -y -qq && \
     unzip TimeTrex_Community_Edition-manual-installer.zip -d /var/www/html/ && \
     rm -f /tmp/TimeTrex_Community_Edition-manual-installer.zip && \
     mv /var/www/html/TimeTrex* /var/www/html/timetrex && \
+#   rm /var/www/html/timetrex/timetrex.ini.php && \
     chgrp www-data -R /var/www/html/timetrex/ && \
     chmod 775 /var/www/html/timetrex && \
     mkdir /database && \
@@ -72,6 +51,10 @@ COPY ["supervisord.conf", "httpd.conf", "maint.conf", "postgres.conf", "/etc/sup
 COPY ["*.sh", "/"]
 COPY ["mpm_prefork.conf", "/etc/apache2/mods-available/mpm_prefork.conf"]
 COPY ["timetrex.ini.php.dist", "/"]
+
+# Define volumes
+VOLUME ["/var/log/timetrex", "/var/timetrex/storage", "/tmp/timetrex", "/usr/bin/php"]
+
 EXPOSE 80
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
