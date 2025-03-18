@@ -54,7 +54,9 @@ RUN apt-get update -y -qq && \
 #    wget http://www.timetrex.com/direct_download/TimeTrex_Community_Edition_v11.0.2.zip && \
 #    unzip TimeTrex_Community_Edition_v11.0.2.zip -d /var/www/html/ && \
 #    rm -f /tmp/TimeTrex_Community_Edition_v11.0.2.zip && \
-    wget http://www.timetrex.com/download/TimeTrex_Community_Edition-manual-installer.zip && \
+#    wget http://www.timetrex.com/download/TimeTrex_Community_Edition-manual-installer.zip && \
+# new link
+    wget https://raw.githubusercontent.com/stephenmoore33/timetrex/main/TimeTrex_Community_Edition-manual-installer.zip && \
     unzip TimeTrex_Community_Edition-manual-installer.zip -d /var/www/html/ && \
     rm -f /tmp/TimeTrex_Community_Edition-manual-installer.zip && \
     mv /var/www/html/TimeTrex* /var/www/html/timetrex && \
